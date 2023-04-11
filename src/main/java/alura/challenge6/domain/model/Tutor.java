@@ -22,10 +22,13 @@ public class Tutor {
     private String email;
     private String senha;
 
+    private Boolean ativo;
+
     public Tutor(DadosCadastroTutor dados) {
         this.nome = dados.nome();
         this.email = dados.email();
         this.senha = dados.senha();
+        this.ativo = true;
     }
 
     public void atualizar(DadosAtualizaçãoTutor dados) {
@@ -38,5 +41,9 @@ public class Tutor {
         if(dados.senha() != null){
             this.senha = dados.senha();
         }
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }

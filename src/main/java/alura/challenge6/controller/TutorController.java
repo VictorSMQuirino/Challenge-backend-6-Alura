@@ -34,12 +34,12 @@ public class TutorController {
 
     @GetMapping
     public ResponseEntity<Page<Tutor>> listar(@PageableDefault(page = 0, size = 10) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAll(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAllByAtivoTrue(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity buscarPorId(@PathVariable Long id){
-        if(!tutorRepository.existsById(id)){
+        if(!tutorRepository.existsByIdAndAtivoTrue(id)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
         }
         var tutor = tutorRepository.getReferenceById(id);
@@ -49,11 +49,22 @@ public class TutorController {
     @PutMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizaçãoTutor dados){
-        if(!tutorRepository.existsById(dados.id())){
+        if(!tutorRepository.existsByIdAndAtivoTrue(dados.id())){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
         }
         var tutor = tutorRepository.getReferenceById(dados.id());
         tutor.atualizar(dados);
         return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluir(@PathVariable Long id){
+        if(!tutorRepository.existsByIdAndAtivoTrue(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
+        }
+        var tutor = tutorRepository.getReferenceById(id);
+        tutor.excluir();
+        return ResponseEntity.status(HttpStatus.OK).body(new DadosDetalhamentoTutor(tutor));
     }
 }
