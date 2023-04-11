@@ -8,11 +8,12 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tutores")
@@ -28,5 +29,10 @@ public class TutorController {
         tutorRepository.save(tutor);
 
         return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Tutor>> listar(@PageableDefault(page = 0, size = 10) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAll(pageable));
     }
 }
