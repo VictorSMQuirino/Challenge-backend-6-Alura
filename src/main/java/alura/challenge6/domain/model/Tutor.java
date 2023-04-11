@@ -1,5 +1,6 @@
 package alura.challenge6.domain.model;
 
+import alura.challenge6.domain.dto.DadosAtualizaçãoTutor;
 import alura.challenge6.domain.dto.DadosCadastroTutor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,17 @@ public class Tutor {
         this.nome = dados.nome();
         this.email = dados.email();
         this.senha = dados.senha();
+    }
+
+    public void atualizar(DadosAtualizaçãoTutor dados) {
+        if(dados.nome() != null){
+            this.nome = dados.nome();
+        }
+        if(dados.email() != null){
+            this.email = dados.email();
+        }
+        if(dados.senha() != null){
+            this.senha = dados.senha();
+        }
     }
 }

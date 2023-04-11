@@ -1,5 +1,6 @@
 package alura.challenge6.controller;
 
+import alura.challenge6.domain.dto.DadosAtualizaçãoTutor;
 import alura.challenge6.domain.dto.DadosCadastroTutor;
 import alura.challenge6.domain.dto.DadosDetalhamentoTutor;
 import alura.challenge6.domain.model.Tutor;
@@ -42,6 +43,17 @@ public class TutorController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
         }
         var tutor = tutorRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizaçãoTutor dados){
+        if(!tutorRepository.existsById(dados.id())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
+        }
+        var tutor = tutorRepository.getReferenceById(dados.id());
+        tutor.atualizar(dados);
         return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
     }
 }
