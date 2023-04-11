@@ -1,8 +1,9 @@
 package alura.challenge6.controller;
 
-import alura.challenge6.domain.dto.DadosAtualizaçãoTutor;
+import alura.challenge6.domain.dto.DadosAtualizacaoTutor;
 import alura.challenge6.domain.dto.DadosCadastroTutor;
 import alura.challenge6.domain.dto.DadosDetalhamentoTutor;
+import alura.challenge6.domain.dto.DadosListagemTutor;
 import alura.challenge6.domain.model.Tutor;
 import alura.challenge6.repository.TutorRepository;
 import jakarta.transaction.Transactional;
@@ -33,8 +34,8 @@ public class TutorController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Tutor>> listar(@PageableDefault(page = 0, size = 10) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAllByAtivoTrue(pageable));
+    public ResponseEntity<Page<DadosListagemTutor>> listar(@PageableDefault(page = 0, size = 10) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAllByAtivoTrue(pageable).map(DadosListagemTutor::new));
     }
 
     @GetMapping("/{id}")
@@ -48,7 +49,7 @@ public class TutorController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizaçãoTutor dados){
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoTutor dados){
         if(!tutorRepository.existsByIdAndAtivoTrue(dados.id())){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
         }
