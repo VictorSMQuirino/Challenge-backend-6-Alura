@@ -35,4 +35,13 @@ public class TutorController {
     public ResponseEntity<Page<Tutor>> listar(@PageableDefault(page = 0, size = 10) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAll(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity buscarPorId(@PathVariable Long id){
+        if(!tutorRepository.existsById(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tutor não encontrado!");
+        }
+        var tutor = tutorRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoTutor(tutor));
+    }
 }
