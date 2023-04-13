@@ -55,4 +55,16 @@ public class AbrigoController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new DadosDetalhamentoAbrigo(abrigo));
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluir(@PathVariable Long id){
+        if(!abrigoRepository.existsById(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Abrigo não encontrado!");
+        }
+        var abrigo = abrigoRepository.getReferenceById(id);
+        abrigo.excluir();
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DadosDetalhamentoAbrigo(abrigo));
+    }
 }

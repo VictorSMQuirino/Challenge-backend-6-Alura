@@ -36,4 +36,8 @@ public class Abrigo {
             this.localidade = dados.localidade();
         }
     }
+
+    public void excluir() {
+        this.ativo = false;
+    }
 }
