@@ -35,4 +35,14 @@ public class AbrigoController {
     public ResponseEntity<Page<DadosListagemAbrigo>> listar(@PageableDefault(size = 10) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(abrigoRepository.findAllByAtivoTrue(pageable).map(DadosListagemAbrigo::new));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity buscarPorId(@PathVariable Long id){
+        if(!abrigoRepository.existsById(id)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Abrigo não encontrado!");
+        }
+        var abrigo = abrigoRepository.getReferenceById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DadosDetalhamentoAbrigo(abrigo));
+    }
 }
