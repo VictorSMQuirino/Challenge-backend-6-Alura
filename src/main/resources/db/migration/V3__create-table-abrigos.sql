@@ -1,0 +1,6 @@
+CREATE TABLE abrigos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    localidade VARCHAR(100) NOT NULL,
+    ativo BOOLEAN NOT NULL
+);
