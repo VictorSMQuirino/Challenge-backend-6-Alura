@@ -34,7 +34,7 @@ public class TutorController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemTutor>> listar(@PageableDefault(page = 0, size = 10) Pageable pageable){
+    public ResponseEntity<Page<DadosListagemTutor>> listar(@PageableDefault(size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(tutorRepository.findAllByAtivoTrue(pageable).map(DadosListagemTutor::new));
     }
 

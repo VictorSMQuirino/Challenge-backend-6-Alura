@@ -33,7 +33,7 @@ public class AbrigoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemAbrigo>> listar(@PageableDefault(size = 10) Pageable pageable){
+    public ResponseEntity<Page<DadosListagemAbrigo>> listar(@PageableDefault(size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(abrigoRepository.findAllByAtivoTrue(pageable).map(DadosListagemAbrigo::new));
     }
 
