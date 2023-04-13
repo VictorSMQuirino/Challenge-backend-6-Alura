@@ -1,5 +1,6 @@
 package alura.challenge6.controller;
 
+import alura.challenge6.domain.dto.DadosAtualizacaoAbrigo;
 import alura.challenge6.domain.dto.DadosCadastroAbrigo;
 import alura.challenge6.domain.dto.DadosDetalhamentoAbrigo;
 import alura.challenge6.domain.dto.DadosListagemAbrigo;
@@ -42,6 +43,15 @@ public class AbrigoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Abrigo não encontrado!");
         }
         var abrigo = abrigoRepository.getReferenceById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DadosDetalhamentoAbrigo(abrigo));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoAbrigo dados){
+        var abrigo = abrigoRepository.getReferenceById(dados.id());
+        abrigo.atualizar(dados);
 
         return ResponseEntity.status(HttpStatus.OK).body(new DadosDetalhamentoAbrigo(abrigo));
     }

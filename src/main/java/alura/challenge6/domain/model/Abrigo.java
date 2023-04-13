@@ -1,5 +1,6 @@
 package alura.challenge6.domain.model;
 
+import alura.challenge6.domain.dto.DadosAtualizacaoAbrigo;
 import alura.challenge6.domain.dto.DadosCadastroAbrigo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,14 @@ public class Abrigo {
         this.nome = dados.nome();
         this.localidade = dados.localidade();
         this.ativo = true;
+    }
+
+    public void atualizar(DadosAtualizacaoAbrigo dados) {
+        if(dados.nome() != null){
+            this.nome = dados.nome();
+        }
+        if(dados.localidade() != null){
+            this.localidade = dados.localidade();
+        }
     }
 }
