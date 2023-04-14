@@ -9,4 +9,6 @@ import java.util.stream.DoubleStream;
 
 public interface AbrigoRepository extends JpaRepository<Abrigo, Long> {
     Page<Abrigo> findAllByAtivoTrue(Pageable pageable);
+
+    boolean existsByIdAndAtivoTrue(Long id);
 }

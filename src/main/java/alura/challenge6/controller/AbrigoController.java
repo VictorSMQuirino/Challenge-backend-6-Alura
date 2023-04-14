@@ -39,7 +39,7 @@ public class AbrigoController {
 
     @GetMapping("/{id}")
     public ResponseEntity buscarPorId(@PathVariable Long id){
-        if(!abrigoRepository.existsById(id)){
+        if(!abrigoRepository.existsByIdAndAtivoTrue(id)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Abrigo não encontrado!");
         }
         var abrigo = abrigoRepository.getReferenceById(id);
@@ -50,6 +50,9 @@ public class AbrigoController {
     @PutMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoAbrigo dados){
+        if(!abrigoRepository.existsByIdAndAtivoTrue(dados.id())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Abrigo não encontrado!");
+        }
         var abrigo = abrigoRepository.getReferenceById(dados.id());
         abrigo.atualizar(dados);
 
@@ -59,7 +62,7 @@ public class AbrigoController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable Long id){
-        if(!abrigoRepository.existsById(id)){
+        if(!abrigoRepository.existsByIdAndAtivoTrue(id)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Abrigo não encontrado!");
         }
         var abrigo = abrigoRepository.getReferenceById(id);
